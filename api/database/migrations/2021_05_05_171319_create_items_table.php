@@ -16,11 +16,11 @@ class CreateItemsTable extends Migration
         Schema::create('items', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->text('detail');
+            $table->text('description');
             $table->unsignedBigInteger('user_id');
             $table->datetime('ends_at');
             $table->double('last_bid')->default(0);
-            $table->unsignedBigInteger('last_bided_user_id');
+            $table->unsignedBigInteger('last_bid_user_id')->nullable();
             $table->timestamps();
 
             $table->foreign('user_id')
@@ -29,7 +29,7 @@ class CreateItemsTable extends Migration
                 ->onDelete('restrict')
                 ->onUpdate('restrict');
 
-            $table->foreign('last_bided_user_id')
+            $table->foreign('last_bid_user_id')
                 ->on('users')
                 ->references('id')
                 ->onDelete('restrict')
