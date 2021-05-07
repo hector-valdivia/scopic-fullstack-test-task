@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -42,4 +43,22 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function activeBids(){
+        return Item::where('last_bid_user_id', $this->id)
+            ->where('ends_at', '>', Carbon::now())
+            ->sum('last_bid');
+    }
+
+    public function budget(){
+        return $this->max_amount_bid - $this->activeBids();
+    }
+
+    public function items(){
+        return $this->hasMany(Item::class, 'user_id', 'id');
+    }
+
+    public function autoBids(){
+        return $this->hasMany(ItemAutoBid::class, 'user_id', 'id');
+    }
 }
