@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Item;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 
@@ -27,5 +28,9 @@ class DatabaseSeeder extends Seeder
                 'email'     => 'user2@gmail.com',
                 'password'  => Hash::make('password')
             ]);
+
+        Item::factory()
+            ->count(50)
+            ->create();
     }
 }
