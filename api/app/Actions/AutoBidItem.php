@@ -35,7 +35,7 @@ class AutoBidItem
         foreach($autobids as $bid){
             $user = $bid->user;
             if (is_null($user->max_amount_bid) || $user->budget() > $the_bid){
-                BidItem::dispatch($item, $user, $the_bid);
+                CreateBid::dispatch($item, $user, $the_bid);
                 break;
             }
         }
